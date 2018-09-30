@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="reviewMapper">
+      <!-- 페이징처리참고
+      <select id="getBoardList" resultMap="boardListRM">
+      select no, title, count, w_date, name from 
+      (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) page from 
+      (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, name 
+      from springboard s, member m
+      where s.id = m.id order by no desc))
+      where page=#{nowPage}
+   </select>
+    -->
+   <resultMap type="review" id="reviewRM">
+   <result property="r_no" column="r_no"/>
+   <result property="p_no" column="p_no"/>
+   <result property="id" column="id"/>
+   <result property="average" column="average"/>
+   <result property="content" column="content"/>
+   <result property="goodCount" column="good_count"/>
+   <result property="rDate" column="r_date"/>
+   <result property="originfilename" column="originfilename"/>
+   <result property="newfilename" column="newfilename"/>
+   </resultMap>
+   <sql id="all-column">
+      r_no, p_no, id, average, content, good_count,r_date ,originfilename, newfilename
+   </sql>
+   <!-- 리뷰등록  -->
+   <insert id="addReview" parameterType="review">
+    <selectKey keyProperty="r_no" resultType="int" order="BEFORE">
+    SELECT review_seq.nextVal from dual
+    </selectKey>
+    INSERT INTO review(<include refid="all-column"></include>) values
+    (#{r_no}, #{p_no}, #{id}, NVL(#{average},0), #{content}, NVL(#{goodCount},'0'),sysdate, #{originfilename}, #{newfilename})
+   </insert>
+   
+   <!-- 전체리뷰보기  -->
+   <select id="getAllReview" resultMap="reviewRM">
+   SELECT <include refid="all-column"></include> FROM review
+   ORDER BY good_count DESC  
+   </select>
+   
+   <!-- 특정리뷰삭제  -->
+   <delete id="deleteReview" parameterType="string">
+   DELETE FROM review WHERE id=#{value}
+   </delete>
+   
+   <!-- 리뷰 업데이트 -->
+   <update id="updateReview" parameterType="review">
+   UPDATE review set content=#{content}, originfilename=#{originfilename}, newfilename=#{newfilename}
+   WHERE id=#{id}
+   </update>
+   <!-- 특정리뷰 불러오기  -->
+   <select id="getReview" parameterType="int" resultMap="reviewRM">
+   SELECT <include refid="all-column"></include> FROM review
+   WHERE r_no=#{value}
+   </select>
+   <!-- 좋아요 올리기 -->
+   <update id="updateGoodCount" parameterType="review">
+   UPDATE review set good_count=good_count+1
+    WHERE id=#{id} and p_no=#{p_No} and r_no=#{r_no}
+   </update>
+   <!-- 좋아요 내리기 -->
+      <update id="goodCountCancle" parameterType="review">
+   UPDATE review set good_count=good_count-1
+    WHERE id=#{id} and p_no=#{p_No} and r_no=#{r_no}
+   </update>
+   <!-- 해당게시글 리뷰  가져오기 -->
+
+   <select id="getReviewByPno" parameterType="review" resultMap="reviewRM">
+   SELECT <include refid="all-column"></include> FROM
+   (select <include refid="all-column"></include>,ceil(rownum/#{pb.numberOfContentPerPage}) as page from 
+   (select <include refid="all-column"></include> from
+   (select <include refid="all-column"></include> from review
+   where p_no = #{p_no}
+   order by r_no desc)))
+   where page=#{pb.nowPage}
+   </select>
+   
+   <!-- 특정상품 리뷰갯수 가져오기 -->
+   <select id="getReviewCountByPno" parameterType="int" resultType="int">
+   select count(-1) from review where p_no=#{value}
+   </select>
+   
+   <!-- 특정상품 별점평균 가져오기 -->
+   <select id="getStarAverage" resultType="double">
+   <![CDATA[
+   select staravg from (select p_no, avg(average) as staravg from review group by p_no) order by staravg desc
+   ]]>
+   </select>
+   
+   <!-- 평점순대로 상품넘버 가져오기 -->
+   <select id="getPnoAverage" resultType="int">
+   <![CDATA[
+   select p_no from (select p_no, avg(average) as staravg from review group by p_no) order by staravg desc
+   ]]>
+   </select>
+   
+  	 <select id="totalCount_getReviewByPno" parameterType="review" resultType="int">
+      SELECT count(-1) from (
+      SELECT
+      <include refid="all-column" />
+      FROM (SELECT
+      <include refid="all-column" />
+      FROM review   
+      )
+      WHERE p_no = #{p_no}
+      ORDER BY r_no DESC
+      )
+   </select>
+   
+   <select id="reviewCount" parameterType="int" resultType="int">
+   	 select count(-1) from review where p_no = #{value}
+   </select>
+   
+   
+   </mapper>

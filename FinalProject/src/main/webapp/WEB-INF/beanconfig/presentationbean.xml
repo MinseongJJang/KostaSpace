@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+<context:annotation-config />
+   <context:component-scan base-package="space.*" />
+<bean name="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+<property name="order" value="0"/>
+</bean>
+
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<property name="prefix" value="/"/>
+<property name="suffix" value=".jsp"/>
+<property name="order" value="1"/>
+</bean>
+
+<bean name="findidView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="findPassView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="idCheck" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="afterCharge" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="areaView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="idCheckResultView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="passcheckResultView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"></bean>
+<bean name="rtimeView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="rcount" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"></bean>
+<bean name="loginResult" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"></bean>
+<bean name="idResultView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="passResultView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="cancleModal" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"></bean>
+<bean name="plusaccmo" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"></bean>
+<bean name="JsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="deleteFile" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="aDeleteFile" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="goodView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="downloadView" class="space.util.DownloadView"/>
+<bean name="myBidInfoModal" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+<bean name="updateBidModal" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<property name="defaultEncoding" value="utf-8"/>
+<property name="maxUploadSize" value="-1"/>
+</bean>
+</beans>

@@ -1,0 +1,715 @@
+@charset "UTF-8"; 
+
+
+a {
+	text-decoration: none;
+}
+
+.pc .logo_footer {
+    background-position: -130px -289px;
+    width: 168px;
+    height: 34px;
+}
+
+
+.ellip, .heading .option, .option_list li .option_item_wrap .tit_item .ellip,
+	.option_list li .option_item_wrap .text_item, .option_list li .option_item_wrap .text_item_availnum,
+	#all_menu .profile dt strong, .header.header_map .p_keyword, .box_space .info_area .tit_space,
+	.box_space .info_area .tags, .table_toggle .p_view_detail,
+	.table_toggle .p_question, .pc .ellip, .pc .option_list li .option_item_wrap .tit_item .ellip,
+	.pc .option_list li .option_item_wrap .text_item, .pc .option_list li .option_item_wrap .text_item_availnum,
+	.pc #all_menu .profile dt strong, .pc .header.header_viewer .p_keyword,
+	.pc .box_space .info_area .tit_space, .pc .box_space .info_area .tags,
+	.pc .table_toggle tbody tr.tr_active .p_question, .pc .table_toggle .p_view_detail,
+	.pc .table_toggle .p_question {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
+}
+
+#all_menu .profile dd, .pc #all_menu .profile dd {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: center;
+	-webkit-box-align: left
+}
+
+.sp_icon, .radio+label:before, .radio:checked+label:before, .checkbox+label:before,
+	.checkbox:checked+label:before, .select:after, .select.active:after,
+	.file input[type="checkbox"]+label .checkbox_type_add i, .input_add .btn :after,
+	.check_list li input+label:after, .check_list li.region_city.checked input+label:after,
+	.check_list li.checked input+label:after, .btn_item_check input+label i,
+	.btn_item_check input:checked+label i, .btn_location .txt_location:before,
+	#all_menu .menu_top ul li a span.tooltip:after, #gnb .depth_1:after,
+	#gnb .depth_1.folded:after, #gnb .depth_1.folded.active:after, .footer .bar_list li.business_info a:after,
+	.pc .footer .bottom_area .company_info li.business_info a:after,
+	.footer .top_area .btn_toggle .btn_inner:after, .box_space .info_area .tags .tag_area_name:before,
+	.tab_sorting .txt_tab:before, .ly_group_mobile .fixed_bar .txt_:after,
+	.slide_wrap .slides .quote:before, .slide_wrap .slides .quote:after,
+	.btn_agree_view .txt_agree_view:after, .btn_share_detail:after,
+	.btn_more_review .txt_more_review:after, .reserve_time_wrap .time_list .disable .price,
+	.btn_rounded_line .txt_intro:after, .btn_rounded_line.btn_share:before,
+	.btn_rounded_line .txt_review:before, .app_area .app_list .mobile_app span:after,
+	.rate_wrap .rate label:after, .rate_wrap .rate label.on:after, .pc .radio+label:before,
+	.pc .radio:checked+label:before, .pc .checkbox+label:before, .pc .checkbox:checked+label:before,
+	.pc .select:after, .pc .select.active:after, .pc .file input[type="checkbox"]+label .checkbox_type_add i,
+	.pc .input_add .btn :after, .pc .check_list li input+label:after, .pc .check_list li.region_city.checked input+label:after,
+	.pc .check_list li.checked input+label:after, .pc .btn_location .txt_location:before,
+	.pc #all_menu .menu_top ul li a span.tooltip:after, .pc #gnb .depth_1:after,
+	.pc #gnb .depth_1.folded:after, .pc #gnb .depth_1.folded.active:after,
+	.pc .slide_wrap .slides .quote:before, .pc .slide_wrap .slides .quote:after,
+	.pc .btn_agree_view .txt_agree_view:after, .pc .btn_share_detail:after,
+	.pc .reserve_time_wrap .time_list .disable .price, .pc .btn_rounded_line .txt_intro:after,
+	.pc .app_list .mobile_app span:after, .pc .app_list .android span:before,
+	.pc .app_list .ios span:before, .pc .app_list .qrcode span, .pc .rate_wrap .rate label:after,
+	.pc .rate_wrap .rate label.on:after, .workspace .help_message:after,
+	.wrap.detail .host_profile .btn_link:after, .credit_wrap .title .link_more:after,
+	.pc .sp_icon, .file input[type="checkbox"]+label .checkbox_type_add .pc i,
+	.input_add .btn .pc :after, .check_list li .pc input+label:after, .pc .btn_item_check input+label i,
+	.btn_item_check input+label .pc i, .btn_location .pc .txt_location:before,
+	#all_menu .menu_top ul li a .pc span.tooltip:after, #gnb .pc .depth_1:after,
+	#gnb .pc .depth_1.folded.active:after, .pc .footer .bar_list li.business_info a:after,
+	.footer .bar_list li.business_info .pc a:after, .pc .footer .top_area .btn_toggle .btn_inner:after,
+	.footer .top_area .btn_toggle .pc .btn_inner:after, .pc .box_space .info_area .tags .tag_area_name:before,
+	.box_space .info_area .tags .pc .tag_area_name:before, .pc .tab_sorting .txt_tab:before,
+	.tab_sorting .pc .txt_tab:before, .pc .ly_group_mobile .fixed_bar .txt_:after,
+	.ly_group_mobile .fixed_bar .pc .txt_:after, .slide_wrap .slides .pc .quote:before,
+	.slide_wrap .slides .pc .quote:after, .btn_agree_view .pc .txt_agree_view:after,
+	.pc .btn_more_review .txt_more_review:after, .btn_more_review .pc .txt_more_review:after,
+	.reserve_time_wrap .time_list .disable .pc .price, .btn_rounded_line .pc .txt_intro:after,
+	.pc .btn_rounded_line.btn_share:before, .pc .btn_rounded_line .txt_review:before,
+	.btn_rounded_line .pc .txt_review:before, .app_area .app_list .mobile_app .pc span:after,
+	.rate_wrap .rate .pc label:after, .pc .workspace .help_message:after,
+	.workspace .pc .help_message:after, .pc .wrap.detail .host_profile .btn_link:after,
+	.wrap.detail .host_profile .pc .btn_link:after, .pc .credit_wrap .title .link_more:after,
+	.credit_wrap .title .pc .link_more:after {
+	display: inline-block;
+	font-size: 0;
+	color: transparent;
+	line-height: 0
+}
+
+.file .inner:after, .input_add .inner:after, .check_list:after,
+	.facility_wrap .inner:after, .rate_area .rate:after, #all_menu .menu_top ul:after,
+	#gnb .depth_2 li:after, #content_wraper:after, .fixed_bar:after,
+	.footer .bar_list:after, .pc .footer .bottom_area .company_info:after,
+	.box_space .btns_reserv:after, .order_list .btn_area, .box:after, .row:after,
+	.col_wrap:after, .tab_sorting:after, ._area .box_keyword_wrap,
+	.recomm_area .recomm_list:after, .slide_wrap .slides:after, .tab_:after,
+	.agree_area .agree_title:after, .detail_box:after, .story_list:after,
+	.facility_wrap:after, .btn_order_area:after, .reserve_price_wrap dl:after,
+	.map_sp_list:after, .table_toggle .tr_view .view_box:after, .intro+.section_cont .intro_box_wrap:after,
+	.feature_list:after, .app_area:after, .event_wrap .slides:after,
+	.ly_pop_sns .share_btns:after, .pc .file .inner:after, .pc .input_add .inner:after,
+	.pc .check_list:after, .pc .option_list:after, .pc .rate_area .rate:after,
+	.pc #all_menu .menu_top:after, .pc #gnb .depth_2 li:after, .pc .photo_wrap .slides:after,
+	.pc .footer .bar_list:after, .pc .box_ .three_:after, .pc .tab_:after,
+	.pc .agree_area .agree_title:after, .pc .box:after, .pc .row:after, .pc .col_wrap:after,
+	.pc .table_toggle .tr_view .view_box:after, .pc .feature_list:after,
+	.workspace .detail_forms .info_price_list>li:after, .workspace .text_box.info_facility .info_list:after,
+	.workspace .reserve_unit_wrap:after, .info_credit .credit_list:after {
+	content: '';
+	display: table;
+	clear: both
+}
+
+.slide_wrap .slides .slide .inner {
+	position: relative;
+	width: 100%
+}
+
+strong, .radio+label, .heading h3, .heading .h3, .option, .txt_price,
+	.box_form>.tit, .box_form .tit_check, .btn_location .txt_location,
+	.btn_location em, .box_setting .txt_unit, .notice_area.reservation .reserv_number dd,
+	.notice_area .result .txt_result, .notice_area .result .txt_default,
+	.order_list .txt_status, .layer_select .option_check, .calendar_wrap .calendar_tit strong,
+	._area .keyword span, .recomm_area h2, .theme_list .article_theme .th_area .h_theme,
+	.theme_list .article_theme.article_text .info_area .tit_theme,
+	.section_cont .h_space .space_name, .text_box .h_intro, .host_profile .pf_name,
+	.sp_name, .review_box.no_data .p_result, .others_wrap .space_list.no_data .p_result,
+	.p_notification, .space_info_wrap .sp_name, .reserv_list .lst strong,
+	.reserv_list .lst .radio+label, .btn_price_area, .reserve_calendar_wrap .calendar_tit strong,
+	.reserve_calendar_wrap .calendar table tr td .date, .reserve_price_wrap dd,
+	.box_notice .heading, .box_notice .refund dd, .box_notice .txt_timeinfo strong,
+	.terms_wrap .checkbox+label, .theme_area .result, .feature_list li .tit,
+	.app_area .app_list .mobile_app span, .event_wrap .event_desc a,
+	.event_wrap .event_slide_wrap a, .pc .box_form>.tit, .pc .box_form>.tit .option,
+	.pc .box_form>.tit .tit_check, .pc .notice_area .txt_confirm a, .pc .theme_area .result,
+	.pc .text_box .h_intro, .pc .host_profile .pf_name, .pc .sp_name, .pc .review_box.no_data .p_result,
+	.pc .space_info_wrap .sp_name, .pc .reserve_person_wrap .flex_box .tit,
+	.pc .feature_list li .tit {
+	font-family: "NanumBarunGothicBold";
+	vertical-align: top
+}
+
+.txt_required, .layer_select, .banner_start strong, .reserve_person_wrap .flex_box .tit,
+	.box_notice .option .checkbox+label, .box_notice .refund .flex.tit,
+	.intro+.section_cont h2, .intro+.section_cont .sub_desc, .intro+.section_cont .link_area .btns,
+	.pc .review_box .rlist .guest_name, .pc .box_notice .option .checkbox+label,
+	.pc .box_notice .notice_list>li .checkbox+label .txt_required, .pc .box_notice .refund dd
+	{
+	font-family: "NanumBarunGothic"
+}
+
+._area h2, ._area .box_keyword, .slide_wrap .slides .tit_promt,
+	.banner_start p, .section_cont .sub_desc, .text_box .h_copy, .intro+.section_cont .link_area,
+	.pc .intro+.section_cont .link_area strong {
+	font-family: "NanumBarunGothicUltralight"
+}
+
+.box_form .color_desc span:before, .pc .box_form .color_desc span:before
+	{
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%
+}
+
+.footer .bar_list li.business_info a:after, .pc .footer .bottom_area .company_info li.business_info a:after,
+	.footer .top_area .btn_toggle .btn_inner:after, .ly_group_mobile .fixed_bar .txt_:after,
+	.banner_start .ico_start_hosting, .btn_agree_view .txt_agree_view:after,
+	.app_area .app_list .mobile_app span:after, .pc .btn_agree_view .txt_agree_view:after,
+	.pc .story_list .editor_story dt:after, .pc .app_list .mobile_app span:after
+	{
+	position: absolute;
+	top: 50%;
+	right: 0
+}
+
+.btn_location .txt_location:before, .btn_rounded .ico_call, .btn_rounded .ico_way,
+	.btn_rounded .ico_navi, .btn_order_area .txt_talk .ico_talk,
+	.btn_order_area .txt_call .ico_call_light, .btn_rounded_line.btn_share:before,
+	.btn_rounded_line .txt_review:before, .pc .btn_location .txt_location:before,
+	.pc .recomm_area .recomm_list li:before, .pc .btn_rounded .ico_call,
+	.pc .btn_rounded .ico_way, .pc .btn_order_area .txt_talk .ico_talk, .pc .btn_order_area .txt_call .ico_call_light,
+	.pc .app_list .android span:before, .pc .app_list .ios span:before {
+	position: absolute;
+	top: 50%;
+	left: 0
+}
+
+body {
+	font-family: NanumBarunGothic, '나눔바른고딕', NanumGothic, '돋움', Dotum,
+		Helvetica, 'Aspple SD Gothic Neo', Sans-serif !important;
+
+}
+
+.sp_icon, .radio+label:before, .radio:checked+label:before, .checkbox+label:before,
+	.checkbox:checked+label:before, .select:after, .select.active:after,
+	.file input[type="checkbox"]+label .checkbox_type_add i, .input_add .btn :after,
+	.check_list li input+label:after, .check_list li.region_city.checked input+label:after,
+	.check_list li.checked input+label:after, .btn_item_check input+label i,
+	.btn_item_check input:checked+label i, .btn_location .txt_location:before,
+	#all_menu .menu_top ul li a span.tooltip:after, #gnb .depth_1:after,
+	#gnb .depth_1.folded:after, #gnb .depth_1.folded.active:after, .footer .bar_list li.business_info a:after,
+	.pc .footer .bottom_area .company_info li.business_info a:after,
+	.footer .top_area .btn_toggle .btn_inner:after, .box_space .info_area .tags .tag_area_name:before,
+	.tab_sorting .txt_tab:before, .ly_group_mobile .fixed_bar .txt_:after,
+	.slide_wrap .slides .quote:before, .slide_wrap .slides .quote:after,
+	.btn_agree_view .txt_agree_view:after, .btn_share_detail:after,
+	.btn_more_review .txt_more_review:after, .reserve_time_wrap .time_list .disable .price,
+	.btn_rounded_line .txt_intro:after, .btn_rounded_line.btn_share:before,
+	.btn_rounded_line .txt_review:before, .app_area .app_list .mobile_app span:after,
+	.rate_wrap .rate label:after, .rate_wrap .rate label.on:after, .pc .radio+label:before,
+	.pc .radio:checked+label:before, .pc .checkbox+label:before, .pc .checkbox:checked+label:before,
+	.pc .select:after, .pc .select.active:after, .pc .file input[type="checkbox"]+label .checkbox_type_add i,
+	.pc .input_add .btn :after, .pc .check_list li input+label:after, .pc .check_list li.region_city.checked input+label:after,
+	.pc .check_list li.checked input+label:after, .pc .btn_location .txt_location:before,
+	.pc #all_menu .menu_top ul li a span.tooltip:after, .pc #gnb .depth_1:after,
+	.pc #gnb .depth_1.folded:after, .pc #gnb .depth_1.folded.active:after,
+	.pc .slide_wrap .slides .quote:before, .pc .slide_wrap .slides .quote:after,
+	.pc .btn_agree_view .txt_agree_view:after, .pc .btn_share_detail:after,
+	.pc .reserve_time_wrap .time_list .disable .price, .pc .btn_rounded_line .txt_intro:after,
+	.pc .app_list .mobile_app span:after, .pc .app_list .android span:before,
+	.pc .app_list .ios span:before, .pc .app_list .qrcode span, .pc .rate_wrap .rate label:after,
+	.pc .rate_wrap .rate label.on:after, .workspace .help_message:after,
+	.wrap.detail .host_profile .btn_link:after, .credit_wrap .title .link_more:after
+	{
+	background-image:
+		url(https://ssl.pstatic.net/spacecloud/static/web/20170605/sp_spacecloud_mobile.png)
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:1.5) {
+	.sp_icon, .radio+label:before, .radio:checked+label:before, .checkbox+label:before,
+		.checkbox:checked+label:before, .select:after, .select.active:after,
+		.file input[type="checkbox"]+label .checkbox_type_add i, .input_add .btn:after,
+		.check_list li input+label:after, .check_list li.region_city.checked input+label:after,
+		.check_list li.checked input+label:after, .btn_item_check input+label i,
+		.btn_item_check input:checked+label i, .btn_location .txt_location:before,
+		#all_menu .menu_top ul li a span.tooltip:after, #gnb .depth_1:after,
+		#gnb .depth_1.folded:after, #gnb .depth_1.folded.active:after, .footer .bar_list li.business_info a:after,
+		.pc .footer .bottom_area .company_info li.business_info a:after,
+		.footer .top_area .btn_toggle .btn_inner:after, .box_space .info_area .tags .tag_area_name:before,
+		.tab_sorting .txt_tab:before, .ly_group_mobile .fixed_bar .txt_:after,
+		.slide_wrap .slides .quote:before, .slide_wrap .slides .quote:after,
+		.btn_agree_view .txt_agree_view:after, .btn_share_detail:after,
+		.btn_more_review .txt_more_review:after, .reserve_time_wrap .time_list .disable .price,
+		.btn_rounded_line .txt_intro:after, .btn_rounded_line.btn_share:before,
+		.btn_rounded_line .txt_review:before, .app_area .app_list .mobile_app span:after,
+		.rate_wrap .rate label:after, .rate_wrap .rate label.on:after, .pc .radio+label:before,
+		.pc .radio:checked+label:before, .pc .checkbox+label:before, .pc .checkbox:checked+label:before,
+		.pc .select:after, .pc .select.active:after, .pc .file input[type="checkbox"]+label .checkbox_type_add i,
+		.pc .input_add .btn:after, .pc .check_list li input+label:after, .pc .check_list li.region_city.checked input+label:after,
+		.pc .check_list li.checked input+label:after, .pc .btn_location .txt_location:before,
+		.pc #all_menu .menu_top ul li a span.tooltip:after, .pc #gnb .depth_1:after,
+		.pc #gnb .depth_1.folded:after, .pc #gnb .depth_1.folded.active:after,
+		.pc .slide_wrap .slides .quote:before, .pc .slide_wrap .slides .quote:after,
+		.pc .btn_agree_view .txt_agree_view:after, .pc .btn_share_detail:after,
+		.pc .reserve_time_wrap .time_list .disable .price, .pc .btn_rounded_line .txt_intro:after,
+		.pc .app_list .mobile_app span:after, .pc .app_list .android span:before,
+		.pc .app_list .ios span:before, .pc .app_list .qrcode span, .pc .rate_wrap .rate label:after,
+		.pc .rate_wrap .rate label.on:after, .workspace .help_message:after,
+		.wrap.detail .host_profile .btn_link:after, .credit_wrap .title .link_more:after
+		{
+		background-image:
+			url(https://ssl.pstatic.net/spacecloud/static/web/20170605/sp_spacecloud_mobile_2x.png);
+		-webkit-background-size: 439px 429px;
+		background-size: 439px 429px
+	}
+}
+
+@font-face {
+	font-family: "NanumBarunGothic";
+	font-style: normal;
+	src:
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothic.eot");
+	src:
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothic.eot?#iefix")
+		format("embedded-opentype"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothic.woff2")
+		format("woff2"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothic.woff")
+		format("woff"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothic.svg#false")
+		format("svg");
+	font-weight: 300
+}
+
+@font-face {
+	font-family: "NanumBarunGothicBold";
+	font-style: normal;
+	src:
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothicBold.eot");
+	src:
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothicBold.eot?#iefix")
+		format("embedded-opentype"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothicBold.woff2")
+		format("woff2"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothicBold.woff")
+		format("woff"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/NanumBarunGothicBold.svg#false")
+		format("svg");
+	font-weight: 400
+}
+
+@font-face {
+	font-family: 'NanumBarunGothicUltralight';
+	src:
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/nanumbarungothicultralight.eot");
+	src:
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/nanumbarungothicultralight.eot?#iefix")
+		format("embedded-opentype"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/nanumbarungothicultralight.woff2")
+		format("woff2"),
+		url("https://ssl.pstatic.net/spacecloud/static/web/20170605/font/nanumbarungothicultralight.woff")
+		format("woff");
+	font-weight: normal;
+	font-style: normal
+}
+
+
+.footer {
+	display: block;
+	position: relative;
+	padding: 20px 0 17px;
+	background-color: #ebebeb;
+	color: #656565;
+	font-size: 13px
+}
+
+.footer .inner_width, .footer .pc .intro+.section_cont, .pc .footer .intro+.section_cont
+	{
+	position: relative;
+	padding: 0 15px;
+	text-align: center
+}
+
+.footer .bar_list li, .pc .footer .bottom_area .company_info li {
+	position: relative;
+	display: inline-block;
+	padding-left: 10px;
+	margin-left: 9px;
+	font-size: 10px;
+	line-height: 19px;
+}
+
+.footer .bar_list li:after, .pc .footer .bottom_area .company_info li:after
+	{
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 4px;
+	width: 1px;
+	height: 9px;
+	background-color: #ccc;
+}
+
+.footer .bar_list li:first-child, .pc .footer .bottom_area .company_info li:first-child,
+	.footer .bar_list li.first, .pc .footer .bottom_area .company_info li.first
+	{
+	padding-left: 0;
+	margin-left: 0
+}
+
+.footer .bar_list li:first-child:after, .pc .footer .bottom_area .company_info li:first-child:after,
+	.footer .bar_list li.first:after, .pc .footer .bottom_area .company_info li.first:after
+	{
+	width: 0;
+}
+
+.footer .bar_list li.business_info a, .pc .footer .bottom_area .company_info li.business_info a
+	{
+	display: inline-block;
+	position: relative;
+	padding-right: 8px
+}
+
+.footer .bar_list li.business_info a:after, .pc .footer .bottom_area .company_info li.business_info a:after
+	{
+	content: '';
+	margin-top: -5px;
+	background-position: -433px -77px;
+	width: 5px;
+	height: 8px
+}
+
+.footer .bar_list a, .pc .footer .bottom_area .company_info a {
+	display: inline-block;
+	color: #535353
+}
+
+.footer .top_area {
+	position: relative
+}
+
+.footer .top_area .footer_logo {
+	display: block
+}
+
+.footer .top_area .btn_toggle {
+	display: inline-block;
+	padding: 18px 0 9px;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+.footer .top_area .btn_toggle .btn_inner {
+	display: inline-block;
+	position: relative;
+	padding-right: 14px;
+	color: #535353
+}
+
+.footer .top_area .btn_toggle .btn_inner:after {
+	content: '';
+	background-position: -385px -373px;
+	width: 9px;
+	height: 5px;
+	margin-top: -3px
+}
+
+.footer .top_area .btn_toggle.active .btn_inner:after {
+	background-position: -133px -270px;
+	width: 9px;
+	height: 5px
+}
+
+.footer .bottom_area {
+	display: none;
+	padding: 11px 0 0;
+}
+
+.footer .bottom_area .company_info {
+	display: inline-block;
+	position: relative;
+	width: 260px;
+	padding: 0 0 9px 0;
+	color: #656565;
+	text-align: left
+}
+
+.footer .bottom_area .company_info li {
+	display: block;
+	float: none;
+	padding-left: 0;
+	margin-left: 0
+}
+
+.footer .bottom_area .company_info li:after {
+	width: 0
+}
+
+.footer .bottom_area .company_info .link {
+	text-decoration: underline
+}
+
+.footer .bottom_area.show {
+	display: inline-block
+}
+
+.footer .link_info, .footer .p_caution {
+	display: none;
+}
+
+.footer .policy_area {
+	padding-top: 20px;
+	border-top: 1px solid #e0e0e0
+}
+
+.footer .policy_area .bar_list, .pc .footer .policy_area .bottom_area .company_info,
+	.pc .footer .bottom_area .policy_area .company_info {
+	padding-top: 17px;
+	display: inline-block
+}
+
+.footer .policy_area .bar_list a, .pc .footer .policy_area .bottom_area .company_info a,
+	.pc .footer .bottom_area .policy_area .company_info a {
+	font-size: 11px
+}
+
+.footer .copyright {
+	margin-top: 7px;
+	font-size: 9px;
+	color: #949494
+}
+
+.pc .footer .inner_width, .pc .footer .intro+.section_cont {
+     padding: 0; 
+     text-align: left; 
+}
+.pc .inner_width, .pc .intro+.section_cont {
+     width: 728px; 
+    margin: 0 auto; 
+}
+.pc .inner_width, .pc .intro+.section_cont {
+    width: 728px; 
+    margin: 0 auto; 
+}
+.footer .inner_width, .footer .pc .intro+.section_cont, .pc .footer .intro+.section_cont {
+     position: relative; 
+     padding: 0 15px; 
+     text-align: center; 
+}
+.inner_width, .pc .intro+.section_cont {
+     position: relative; 
+}
+
+.footer .copyright .copy_pc {
+	display: none
+}
+
+.footer .copyright a {
+	color: #949494
+}
+
+.pc .photo_wrap .slides .slide {
+	float: left
+}
+
+.pc .viewer {
+	text-align: center;
+	background-color: #23252b
+}
+
+.pc .viewer .source {
+	position: absolute;
+	bottom: 25px;
+	left: 0;
+	width: 100%;
+	font-size: 15px;
+	text-align: center;
+	color: #949494
+}
+
+.pc .viewer .center {
+	padding: 70px
+}
+
+.pc .viewer .center img {
+	max-width: 100%
+}
+
+.pc .footer {
+	padding: 54px 0 50px
+}
+
+.pc .footer .inner_width, .pc .footer .intro+.section_cont {
+	/* padding:0; */
+	text-align: left;
+}
+
+.pc .footer .bar_list, .pc .footer .bottom_area .company_info {
+	padding-left: 0
+}
+
+.pc .footer .bar_list li, .pc .footer .bottom_area .company_info li {
+	display: inline-block;
+	padding-left: 11px;
+	margin: 5px 0 0 6px;
+	font-size: 13px;
+}
+
+.pc .footer .bar_list li:after, .pc .footer .bottom_area .company_info li:after
+	{
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 3px;
+	width: 1px;
+	height: 11px;
+	background-color: #ccc;
+}
+
+.pc .footer .bar_list li.business_info a, .pc .footer .bottom_area .company_info li.business_info a
+	{
+	padding-right: 11px
+}
+
+.pc .footer .bar_list li.business_info a:after, .pc .footer .bottom_area .company_info li.business_info a:after
+	{
+	margin-top: -6px;
+	background-position: -625px -450px;
+	width: 6px;
+	height: 10px
+}
+
+.pc .footer .bar_list li:first-child, .pc .footer .bottom_area .company_info li:first-child,
+	.pc .footer .bar_list li.first, .pc .footer .bottom_area .company_info li.first
+	{
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.pc .footer .bar_list li:first-child:after, .pc .footer .bottom_area .company_info li:first-child:after,
+	.pc .footer .bar_list li.first:after, .pc .footer .bottom_area .company_info li.first:after
+	{
+	width: 0
+}
+
+.pc .footer .top_area {
+	padding-bottom: 23px;
+	text-align: left;
+}
+
+.pc .footer .top_area .link_info {
+	display: block;
+	position: absolute;
+	right: 0;
+	bottom: 25px;
+	font-size: 15px;
+}
+
+.pc .footer .bottom_area {
+	display: block; /* padding:25px 0 0; */
+	margin: 0;
+	border-bottom: 0; /* border-top:1px solid #e0e0e0; */
+}
+
+.pc .footer .bottom_area .company_info {
+	width: 830px;
+	border-bottom: 0
+}
+
+.pc .footer .bottom_area .company_info li:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 3px;
+	width: 1px;
+	height: 11px;
+	background-color: #ccc
+}
+
+.pc .footer .bottom_area .company_info a {
+	margin-top: 1px
+}
+
+.pc .footer .bottom_area .company_info .call_info {
+	padding-left: 0;
+	margin-left: 0
+}
+
+.pc .footer .bottom_area .company_info .call_info:after {
+	width: 0
+}
+
+.pc .footer .bottom_area .company_info .email_info {
+	width: 300px
+}
+
+.pc .footer .bottom_area .p_caution {
+	display: block;
+	margin: 27px auto 0;
+	line-height: 22px;
+}
+
+.pc .footer .bottom_area .p_caution .br {
+	display: block
+}
+
+.pc .footer .bottom_area .footer_n_logo {
+	position: absolute;
+	right: 0;
+	bottom: 0
+}
+
+.pc .footer.fixed {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%
+}
+
+.pc .footer .top_area .btn_toggle, .pc .footer .policy_area .bar_list,
+	.pc .footer .policy_area .bottom_area .company_info, .pc .footer .bottom_area .policy_area .company_info
+	{
+	display: none;
+}
+
+.pc .footer .policy_area {
+	padding-top: 0;
+	border-top: 0
+}
+
+.pc .footer .sns_list {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 88px
+}
+
+.pc .footer .copyright {
+	position: absolute;
+	right: 0;
+	bottom: 4px;
+	font-size: 12px
+}
+
+.pc .footer .copyright .copy_mobile {
+	display: none
+}
+
+.pc .footer .copyright .copy_pc {
+    display: block;
+    margin-bottom: -2px;
+}
+.footer .copyright .copy_pc {
+    display: none;
+}
+span, em {
+    vertical-align: top;
+}

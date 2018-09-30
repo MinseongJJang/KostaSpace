@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userMapper">
+   <!-- 유저 result map -->
+   <resultMap type="user" id="userRM">
+      <result property="id" column="id" />
+      <result property="password" column="password" />
+      <result property="name" column="name" />
+      <result property="address" column="address" />
+      <result property="point" column="point" />
+      <result property="auctionVO" column="auction" />
+      <result property="pList" column="product" />
+      <result property="crn" column="crn" />
+      <result property="grade" column="grade" />
+      <result property="tel" column="tel" />
+   </resultMap>
+
+   <!-- 유저 로직 -->
+   <!-- 1. 회원가입. -->
+   <insert id="registerUser" parameterType="user">
+      INSERT INTO
+      spaceuser(id, password,tel, name, address, crn,grade,point)
+      VALUES(#{id},
+      #{password},#{tel}, #{name}, #{address},#{crn},NVL(#{grade},0),NVL(#{point},0))
+   </insert>
+   <!--2. grade 상승 -->
+   <update id="upgradeUserGrade" parameterType="string">
+      update spaceuser
+      set
+      grade = grade+1
+      where id = #{id}
+   </update>
+   <!-- 3. 특정 회원 상세정보 -->
+   <select id="getUserInfo" parameterType="string" resultMap="userRM">
+      SELECT id, name, address, point, auction, product, crn, grade, tel,password
+      FROM spaceuser
+      WHERE id=#{value}
+   </select>
+   <!--4. 로그인 -->
+   <select id="loginUser" parameterType="user" resultMap="userRM">
+      SELECT id,
+      password, name, address, point, auction, product, crn
+      FROM spaceuser
+      WHERE id=#{id} AND password=#{password}
+   </select>
+   <!-- 5. 아이디 찾기 -->
+   <select id="findId" parameterType="string" resultType="string">
+   SELECT id FROM spaceuser
+   WHERE tel=#{value}
+   </select>
+   <!--6. 비밀번호 찾기 -->
+   <select id="findPassword" parameterType="user" resultType="string">
+      SELECT password FROM spaceuser
+      WHERE id=#{id} AND name=#{name}
+   </select>
+   <!--7. 회원정보 수정  -->
+   <update id="updateUser" parameterType="user">
+      UPDATE spaceuser
+      SET
+      password=#{password}, name=#{name}, address=#{address},tel=#{tel}, point=#{point}
+      WHERE id=#{id}
+   </update>
+   <!-- 8.회원 탈퇴 -->
+   <delete id="deleteUser" parameterType="user">
+   DELETE FROM spaceuser WHERE id=#{id} and password=#{password}
+   </delete>
+   
+   <select id="idCheck" parameterType="string" resultType="int">
+      SELECT count(-1) FROM spaceuser
+      WHERE id=#{value}
+   </select>
+
+   <!-- <resultMap type="point" id="pointRM">
+      <result property="id" column="id" />
+      <result property="kind" column="kind" />
+      <result property="balance" column="balance" />
+      <result property="amount" column="amount" />
+   </resultMap>
+
+   <select id="getAllTransactionInfo" parameterType="string"
+      resultMap="pointRM">
+      select id,kind,balance,amount from point
+   </select>
+
+   <resultMap type="deal" id="dealRM">
+      <result property="dNo" column="d_no" />
+      <result property="id" column="id" />
+      <result property="pNo" column="p_no" />
+      <result property="resDate" column="res_date" />
+      <result property="resTime" column="res_time" />
+      <result property="bTel" column="btel" />
+      <result property="sTel" column="stel" />
+      <result property="title" column="title" />
+      <result property="area" column="area" />
+      <result property="grade" column="grade" />
+      <result property="accept" column="accept" />
+   </resultMap>
+
+   <select id="getDealInfo" resultMap="dealRM" parameterType="string">
+      SELECT * from deal where d_no=#{value}
+   </select>
+
+   <insert id="fillPoint" parameterType="point">
+      INSERT INTO point(id, kind,
+      balance, amount) VALUES
+      (#{id},#{kind},#{balance},#{amount})
+   </insert> -->
+
+</mapper>

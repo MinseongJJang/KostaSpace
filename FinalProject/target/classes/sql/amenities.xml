@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="amenitiesMapper">
+	<resultMap type="amenities" id="amenitiesRM">
+	  	<result column="p_no" property="p_no" />
+		<result column="amenities" property="amenities"/>
+		<result column="a_no" property="a_no" />
+		<result column="atemp_no" property="atemp_no" />
+   </resultMap>
+   
+
+   
+   <insert id="registerAmenitiesProduct" parameterType="amenities">
+   INSERT into amenities(p_no,amenities) values(#{p_no},#{amenities})
+   </insert>
+   
+	<insert id="registerAmenitiesAuctionTemp" parameterType="amenities">
+	INSERT into amenities(amenities,atemp_no) values(
+	#{amenities},#{atemp_no}
+	)
+	</insert>
+   
+   <insert id="registerAmenitiesAuction" parameterType="amenities">
+	INSERT into amenities(amenities,a_no) values(
+	#{amenities},#{a_no}
+	)
+	</insert>
+   
+   <update id="updateAmenitiesProduct" parameterType="amenities">
+   UPDATE amenities set amenities = #{amenities}
+   WHERE p_no =#{p_no}
+   </update>
+     <update id="updateAmenitiesAuction" parameterType="amenities">
+   UPDATE amenities set amenities = #{amenities}
+   WHERE a_no =#{a_no}
+   </update>
+     <update id="updateAmenitiesAuctionTemp" parameterType="amenities">
+   UPDATE amenities set amenities = #{amenities}
+   WHERE atemp_no =#{atemp_no}
+   </update>
+   <select id="getAmentiesByPNo" parameterType="int" resultMap="amenitiesRM">
+   SELECT p_no,amenities FROM amenities
+   WHERE p_no=#{value}
+   </select>
+   <select id="getAmentiesByANo" parameterType="int" resultMap="amenitiesRM">
+   SELECT a_no,amenities FROM amenities
+   WHERE a_no=#{value}
+   </select>
+   <select id="getAmentiesByAtempNo" parameterType="int" resultMap="amenitiesRM">
+   SELECT atemp_no,amenities FROM amenities
+   WHERE atemp_no=#{value}
+   </select>
+   
+</mapper>

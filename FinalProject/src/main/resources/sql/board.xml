@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+   <!-- 페이징처리참고 <select id="getBoardList" resultMap="boardListRM"> select no, 
+      title, count, w_date, name from (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) 
+      page from (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, 
+      name from springboard s, member m where s.id = m.id order by no desc)) where 
+      page=#{nowPage} </select> -->
+	<resultMap type="board" id="boardRM">
+	<result property="b_no" column="b_no"/>
+	<result property="id" column="id"/>
+	<result property="title" column="title"/>
+	<result property="category" column="category"/>
+	<result property="bDate" column="b_date"/>
+	<result property="content" column="content"/>
+	<result property="originfilename" column="originfilename"/>
+	<result property="newfilename" column="newfilename"/>
+	<result property="notice" column="notice"/>
+	</resultMap>
+
+   <sql id="all-column">
+      b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+   </sql>
+
+   <!-- board등록 false로 등록될시 기본적으로 공지사항으로 인지 true로 입력될시 faq가 되게구성 -->
+   <insert id="registerBoard" parameterType="board">
+      <selectKey keyProperty="b_no" resultType="int" order="BEFORE">
+         SELECT
+         board_seq.nextVal FROM dual
+      </selectKey>
+      INSERT INTO board(
+      <include refid="all-column" />
+      )
+      VALUES(#{b_no}, #{id}, #{title}, #{category}, sysdate,
+      #{content}, #{newfilename}, #{originfilename}, nvl(#{notice},'false'))
+   </insert>
+   <!-- board수정 -->
+   <update id="updateBoard" parameterType="board">
+      UPDATE board
+      SET title=#{title}, category=#{category}, content=#{content},
+      newfilename=#{newfilename}, originfilename=#{originfilename}
+      WHERE b_no=#{b_no} AND id=#{id} AND notice=#{notice}
+   </update>
+
+   <!-- faq검색 -->
+   <select id="searchFAQ" parameterType="board" resultMap="boardRM">
+      SELECT <include refid="all-column"/>
+      FROM
+      (select <include refid="all-column"/>, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+      (SELECT <include refid="all-column"/>
+      FROM (SELECT
+      <include refid="all-column"/>
+      FROM (SELECT
+      <include refid="all-column"/>
+      FROM board
+      <where>
+         <if test="category != null">
+            category=#{category} AND notice=#{notice}
+         </if>
+         <if test="category == null">
+            notice=#{notice}
+         </if>
+      </where>
+      )
+      WHERE title like '%' || #{title} || '%' OR content like '%' ||
+      #{content} || '%'
+      ORDER BY b_no DESC)))
+      WHERE page=#{pb.nowPage}
+   </select>
+   <select id="totalCount_searchFAQ" parameterType="board" resultType="int">
+      SELECT count(-1) from (
+      SELECT
+      <include refid="all-column" />
+      FROM (SELECT
+      <include refid="all-column" />
+      FROM board
+      <where>
+         <if test="category != null">
+            category=#{category} AND notice=#{notice}
+         </if>
+         <if test="category == null">
+            notice=#{notice}
+         </if>
+      </where>
+      )
+      WHERE title like '%' || #{title} || '%' OR content like '%' ||
+      #{content} || '%'
+      ORDER BY b_no DESC
+      )
+   </select>
+   <!-- 특정 FAQ불러오기 -->
+   <select id="getFAQInfo" parameterType="int" resultMap="boardRM">
+   SELECT <include refid="all-column"></include> from board
+      WHERE b_no=#{value}
+   </select>
+   
+   <!-- 전체 faq불러오기 -->
+   <select id="getAllFAQInfo" parameterType="board" resultMap="boardRM">
+         SELECT  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+      FROM
+      (select  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+      (SELECT  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+      FROM (SELECT  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice FROM Board
+      WHERE notice=#{notice}
+      ORDER BY b_no DESC)))
+      WHERE page=#{pb.nowPage}   
+
+   </select>
+   <select id="totalCount_getAllFAQInfo" parameterType="board" resultType="int">
+      SELECT count(-1) FROM (
+      SELECT <include refid="all-column"></include> FROM board
+      WHERE notice=#{notice}
+      ORDER BY b_no DESC)
+   </select>
+   
+   <!-- 특정 notice불러오기 -->
+   <select id="getNotice" parameterType="int" resultMap="boardRM">
+      SELECT <include refid="all-column"></include> from board
+      WHERE b_no=#{value} 
+   </select>
+   
+   
+
+   <!-- 모든 notice불러오기 -->
+   <select id="getAllNotice" parameterType="board" resultMap="boardRM" >
+    SELECT b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+      FROM
+      (select b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+      (SELECT b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+      FROM (SELECT b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice FROM board
+      WHERE notice=#{notice}
+      ORDER BY b_no DESC)))
+      WHERE page=#{pb.nowPage}
+   </select>
+   <select id="totalcount_getAllNotice" parameterType="board" resultType="int">
+      SELECT count(-1) from(SELECT * FROM board
+      WHERE notice=#{notice}
+      ORDER BY b_no DESC)
+   </select>
+   <!-- notice찾아보기 -->
+
+   <select id="searchNotice" parameterType="board" resultMap="boardRM">
+      SELECT <include refid="all-column"/>
+      FROM
+      (select <include refid="all-column"/>, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+      (SELECT <include refid="all-column"/>
+      FROM (SELECT <include refid="all-column"/>
+      FROM board
+      WHERE notice=#{notice})
+      WHERE title like '%' || #{title} || '%' OR content like '%' || #{content}
+      || '%'
+      ORDER BY b_no DESC))
+      WHERE page=#{pb.nowPage}
+   </select>
+   <select id="totalcount_searchNotice" parameterType="board"
+      resultType="int">
+      SELECT count(-1)
+      FROM (SELECT <include refid="all-column"/>
+      FROM board
+      WHERE notice=#{notice})
+      WHERE title like '%' || #{title} || '%' OR content like '%' || #{content}
+      || '%'
+      ORDER BY b_no DESC
+   </select>
+   
+   <!-- deleteBoard -->
+   <delete id="deleteBoard" parameterType="int" >
+   		DELETE from board WHERE b_no=#{value}
+   
+   </delete>
+   
+   <!-- 페이징처리참고 <select id="getBoardList" resultMap="boardListRM"> select no, 
+      title, count, w_date, name from (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) 
+      page from (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, 
+      name from springboard s, member m where s.id = m.id order by no desc)) where 
+      page=#{nowPage} </select> -->
+</mapper>

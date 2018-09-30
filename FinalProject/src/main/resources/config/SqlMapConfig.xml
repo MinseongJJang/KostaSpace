@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+   
+<configuration>
+   <!-- Unit Test시 필요함. -->
+<!--    <properties resource="config/jdbc.properties"/> -->
+    <settings>
+      <setting name="jdbcTypeForNull" value="NULL"/>
+   </settings>
+   
+   <typeAliases>
+      <typeAlias type="space.adeal.domain.AdealVO" alias="aDeal"/>
+      <typeAlias type="space.auction.domain.AuctionVO" alias="auction"/>
+      <typeAlias type="space.bid.domain.BidVO" alias="bid"/>
+      <typeAlias type="space.board.domain.BoardVO" alias="board"/>
+      <typeAlias type="space.complain.domain.ComplainVO" alias="complain"/>
+      <typeAlias type="space.deal.domain.DealVO" alias="deal"/>
+      <typeAlias type="space.hashtag.domain.HashtagVO" alias="hashtag"/>
+      <typeAlias type="space.pointhistory.domain.PointHistoryVO" alias="pointhistory"/>
+      <typeAlias type="space.product.domain.ProductVO" alias="product"/>
+      <typeAlias type="space.review.domain.ReviewVO" alias="review"/>
+      <typeAlias type="space.spaceuser.domain.SpaceUserVO" alias="user"/>
+      <typeAlias type="space.good.domain.GoodVO" alias="good"/>
+      <typeAlias type="space.util.PagingBean" alias="pagingbean"/>
+      <typeAlias type="space.auction.domain.AuctionTempVO" alias="auctiontemp"/>
+      <typeAlias type="space.amenties.domain.AmenitiesVO" alias="amenities"/>
+   </typeAliases>
+   
+   <!-- Unit Test시 필요함. -->
+<!--     <environments default="haha">
+      <environment id="haha">
+         <transactionManager type="JDBC"/>
+         <dataSource type="UNPOOLED">
+            <property name="driver" value="${JDBC.driver}"/>
+            <property name="url" value="${JDBC.url}"/>
+            <property name="username" value="${JDBC.username}"/>
+            <property name="password" value="${JDBC.password}"/>
+         </dataSource>
+      </environment>
+   </environments>  -->
+   <mappers>
+      <mapper resource="sql/product.xml"/>
+      <mapper resource="sql/review.xml"/>
+      <mapper resource="sql/spaceuser.xml"/>
+      <mapper resource="sql/board.xml"/>
+      <mapper resource="sql/complain.xml"/>
+      <mapper resource="sql/point.xml"/>
+      <mapper resource="sql/bid.xml"/>
+      <mapper resource="sql/auction.xml"/>
+      <mapper resource="sql/good.xml"/>
+      <mapper resource="sql/deal.xml"/>
+      <mapper resource="sql/amenities.xml"/>
+   </mappers>
+</configuration>
+
+
+
+
+
+
+

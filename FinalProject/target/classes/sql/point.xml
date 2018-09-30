@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+      <!-- 페이징처리참고
+      <select id="getBoardList" resultMap="boardListRM">
+      select no, title, count, w_date, name from 
+      (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) page from 
+      (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, name 
+      from springboard s, member m
+      where s.id = m.id order by no desc))
+      where page=#{nowPage}
+   </select>
+    -->
+    <mapper namespace="pointMapper">
+    	<!-- 유저 result map -->
+	<resultMap type="user" id="userRM">
+		<result property="id" column="id" />
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="address" column="address" />
+		<result property="point" column="point" />
+		<result property="auctionVO" column="auction" />
+		<result property="pList" column="product" />
+		<result property="crn" column="crn" />
+		<result property="grade" column="grade" />
+		<result property="tel" column="tel" />
+	</resultMap>
+    <!-- 포H RM -->
+    <resultMap type="pointhistory" id="pointhistoryRM">
+    <result property="ph_no" column="ph_no"/>
+    <result property="id" column="id"/>
+    <result property="category" column="category"/>
+    <result property="kind" column="kind"/>
+    <result property="turnover" column="turnover"/>
+    <result property="phDate" column="ph_date"/>
+    </resultMap>	
+	<!-- pointhistory all-column  -->
+	<sql id="all-column">
+	ph_no, id, category, kind, turnover,ph_date
+	</sql>
+	
+	
+	   <!-- turnover 등록하기  회원가입과 동시에 이루어져야 한다.-->
+	<insert id="regiseterPointHistory" parameterType="pointhistory">
+    <selectKey keyProperty="ph_no" resultType="int" order="BEFORE">
+    SELECT pointhistory_seq.nextVal from dual
+    </selectKey>
+    INSERT INTO pointhistory(<include refid="all-column"></include>) values(
+    #{ph_no},#{id},
+    NVL(#{category},'미정'),
+    NVL(#{kind},'미정'),
+    NVL(#{turnover},0)
+    ,sysdate)
+    </insert>
+	
+    <!-- 특정회원 point불러오기 --> 
+    <select id="getPoint" parameterType="string" resultType="string">
+ 	SELECT point FROM spaceuser WHERE id=#{value}
+    </select>
+    
+    <!-- 특정회원  point 수정하기  -->
+    <update id="updatePlusPoint" parameterType="user">
+    UPDATE spaceuser SET point = 
+    point+(select turnover from 
+	(select turnover from pointhistory order by ph_no desc) WHERE rownum=1 and id=#{id})
+    WHERE id=#{id}
+    </update>
+     <update id="updateMinusPoint" parameterType="user">
+    UPDATE spaceuser SET point = 
+    point-(select turnover from 
+	(select turnover from pointhistory order by ph_no desc) WHERE rownum=1 and id=#{id})
+    WHERE id=#{id}
+    </update>
+    
+
+    <!-- 특정회원의 거래 내역 모두확인하기 -->
+    <select id="getAllPointHistoryById" parameterType="string" resultMap="pointhistoryRM">
+    SELECT <include refid="all-column"></include> FROM pointhistory
+    WHERE id=#{value} ORDER BY ph_no DESC
+    </select>
+    
+    <!-- 모든 거래내역 확인하기 ... (관리자입장) -->
+    <select id="getAllPointHistory" resultMap="pointhistoryRM">
+    SELECT <include refid="all-column"></include> FROM pointhistory
+    </select>
+    
+    </mapper>
+  

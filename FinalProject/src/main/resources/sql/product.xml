@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="productMapper">
+      <!-- 페이징처리참고
+      <select id="getBoardList" resultMap="boardListRM">
+      select no, title, count, w_date, name from 
+      (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) page from 
+      (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, name 
+      from springboard s, member m
+      where s.id = m.id order by no desc))
+      where page=#{nowPage}
+   </select>
+    -->
+   <resultMap type="product" id="productRM">
+      <result property="p_no" column="p_no"/>
+      <result property="title" column="title"/>
+      <result property="price" column="price"/>
+      <result property="content" column="content"/>
+      <result property="area" column="area"/>
+      <result property="pDate" column="p_date"/>
+      <result property="category" column="category"/>
+      <result property="crn" column="crn"/>
+      <result property="location" column="location"/>
+      <result property="type" column="type"/>
+      <result property="sTime" column="s_time"/>
+      <result property="eTime" column="e_time"/>
+      <result property="tel" column="tel"/>
+      <result property="originfilename" column="originfilename"/>
+      <result property="newfilename" column="newfilename"/>
+      <result property="id" column="id"/>
+      <result property="hashtag" column="hashtag"/>
+      <result property="staravg" column="staravg"/>
+      <result property="originfilenames" column="originfilenames"/>
+      <result property="newfilenames" column="newfilenames"/>
+      <result property="accomodation" column="accomodation"/>
+      <result property="area2" column="area2"/>
+      <result property="goodcount" column="good_count"/>
+      <result property="reviewcount" column="review_count"/>
+   </resultMap>
+   
+   <resultMap type="review" id="reviewRM">
+   <result property="r_no" column="r_no"/>
+   <result property="p_no" column="p_no"/>
+   <result property="id" column="id"/>
+   <result property="average" column="average"/>
+   <result property="content" column="content"/>
+   <result property="goodCount" column="good_count"/>
+   <result property="rDate" column="r_date"/>
+   <result property="originfilename" column="originfilename"/>
+   <result property="newfilename" column="newfilename"/>
+   </resultMap>
+   
+   <resultMap type="hashtag" id="hashtagRM">
+      <result property="h_no" column="h_no"/>
+      <result property="h_name" column="h_name"/>
+      <result property="p_no" column="p_no"/>
+   </resultMap>
+   
+   <sql id="all-column">
+   p_no, title, price, content, area, p_date, category, crn, location, type, s_time,e_time, tel, originfilename, newfilename,id,hashtag,
+   staravg, originfilenames, newfilenames,accomodation,area2,good_count,review_count
+   </sql>
+   
+   <!-- 상품등록  -->
+   <insert id="registerProduct" parameterType="product">
+   <selectKey keyProperty="p_no" resultType="int" order="BEFORE">
+   SELECT product_seq.nextVal from dual
+   </selectKey>
+   INSERT INTO product(<include refid="all-column"></include>) values(
+   #{p_no},#{title},#{price},#{content},#{area},sysdate,#{category},
+   NVL(#{crn},'비사업자'),#{location},#{type},#{sTime},#{eTime},#{tel},#{originfilename},#{newfilename},#{id},#{hashtag},NVL(#{staravg},0),
+   #{originfilenames},#{newfilenames},#{accomodation},#{area2},NVL(#{goodcount},0),NVL(#{reviewcount},0)
+   )
+   </insert>
+   
+   <select id="getAllProduct" resultMap="productRM">
+   SELECT <include refid="all-column"></include> FROM product ORDER BY p_no DESC
+   </select>
+   
+   
+   <select id="getAllProductById" parameterType="string" resultMap="productRM">
+      SELECT <include refid="all-column"></include> FROM product
+      WHERE id=#{value}
+   </select>
+   
+   <select id="getProductInfo" parameterType="int" resultMap="productRM">
+   SELECT <include refid="all-column"></include> FROM product
+   WHERE p_no = #{value}
+   </select>   
+   
+   <update id="updateProduct" parameterType="product">
+   UPDATE product set title=#{title}, price=#{price},content=#{content},area=#{area},
+   category=#{category},location=#{location},time=#{time},tel=#{tel},originfilename=#{originfilename},newfilename=#{newfilename}
+   ,originfilenames=#{originfilenames},newfilenames=#{newfilenames},accomodation=#{accomodation},#{area2}
+   WHERE id=#{id}
+   </update>
+   
+   <delete id="deleteProduct" parameterType="int">
+   DELETE FROM product 
+   WHERE p_no=#{value}
+   </delete>
+   
+   <select id="searchProductByHashtag" parameterType="string" resultMap="hashtagRM">
+   SELECT h_name,p_no FROM hashtag
+   where h_name like '%' || ltrim(#{value},'#') || '%'
+   </select>
+   
+   <select id="searchProductByKeyword" parameterType="string" resultMap="productRM">
+   SELECT <include refid="all-column"></include> FROM product
+   WHERE title LIKE '%'||#{value}||'%' 
+   or content LIKE '%'||#{value}||'%'
+   or area  LIKE '%'||#{value}||'%'
+   or category  LIKE '%'||#{value}||'%'
+   or location  LIKE '%'||#{value}||'%'
+   ORDER BY p_no DESC
+   </select>
+   
+<select id="searchProductByCondition" parameterType="product" resultMap="productRM">
+   SELECT <include refid="all-column"></include> FROM product
+      intersect
+   SELECT <include refid="all-column"></include> FROM product
+   <if test="area!=#{area}">
+     WHERE area LIKE '%'||#{area}||'%'
+   </if>
+      intersect
+   SELECT <include refid="all-column"></include> FROM product
+   <if test="type==#{type}">
+     WHERE type=#{type}
+   </if>
+         intersect
+      SELECT <include refid="all-column"></include> FROM product
+      <if test="accomodation==#{accomodation}">
+      WHERE accomodation=#{accomodation}
+      </if>
+   </select>
+   
+   <insert id="registerHashtag" parameterType="hashtag">
+   <selectKey keyProperty="h_no" resultType="int" order="BEFORE">
+   SELECT hashtag_seq.nextVal from dual
+   </selectKey>
+    INSERT INTO hashtag(h_no,h_name,p_no,type) values(#{h_no},#{h_name},#{p_no},#{type})
+  
+   </insert>
+   
+   <select id="getHashtag" parameterType="string" resultMap="hashtagRM">
+   SELECT h_name,p_no FROM hashtag 
+   WHERE h_name = #{value}
+   </select>
+   
+   <select id="getHashtagByNo" parameterType="string" resultMap="hashtagRM">
+   select h_name,p_no From hashtag
+   WHERE p_no = #{value}
+   </select>
+   
+   <select id="getHnoBySpace" resultMap="hashtagRM">
+   select h_name,p_no,type from hashtag where type='공간'
+   </select>
+    <select id="getHnoByTech" resultMap="hashtagRM">
+   select h_name,p_no,type from hashtag where type='휴테크'
+   </select>
+   <update id="updateStarAverage" parameterType="product">
+    UPDATE product SET staravg = #{staravg} where p_no=#{p_no}
+   </update>
+   
+   <update id="updateGoodCount" parameterType="String">
+	 update product set good_count=(select count(-1) from good where good_count=1 and p_no=#{value}) where p_no=#{value}
+   </update>
+	 
+  
+   
+   <update id="plusGoodCount" parameterType="String">
+   	 update product set good_count=good_count+1 where p_no=#{value}
+   </update>
+   
+   <update id="updateReviewCount" parameterType="product">
+   	 update product set review_count=#{reviewcount} where p_no=#{p_no}
+   </update>
+   </mapper>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+ 

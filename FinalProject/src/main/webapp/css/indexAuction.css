@@ -1,0 +1,128 @@
+a, a:hover, a:focus, a:active, a.active {
+	outline: none;
+}
+
+a {
+	color: #fed136;
+}
+
+a:hover, a:focus, a:active, a.active {
+	color: #fec503;
+}
+
+.index-auction {
+	background-image: url("../auction/img/auctionmain.jpg");
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-position: center center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+	text-align: center;
+	color: white;
+}
+
+.index-auction .intro-text {
+	padding-top: 100px;
+	padding-bottom: 50px;
+}
+
+.index-auction .intro-text .intro-lead-in {
+	font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: italic;
+	font-size: 22px;
+	line-height: 22px;
+	margin-bottom: 25px;
+}
+
+.index-auction .intro-text .intro-heading {
+	font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 50px;
+	line-height: 50px;
+	margin-bottom: 25px;
+}
+
+@media ( min-width :768px) {
+	.index-auction .intro-text {
+		padding-top: 100px;
+		padding-bottom: 100px;
+	}
+	.index-auction .intro-text .intro-lead-in {
+		font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-style: italic;
+		font-size: 40px;
+		line-height: 40px;
+		margin-bottom: 25px;
+	}
+	.index-auction .intro-text .intro-heading {
+		font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 75px;
+		line-height: 75px;
+		margin-bottom: 50px;
+	}
+}
+
+.index-btn{
+	margin-bottom: 50px;
+}
+
+.btn-xl {
+	color: white;
+	background-color: #fed136;
+	border-color: #fed136;
+	font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	font-weight: 700;
+	border-radius: 3px;
+	font-size: 20px !important;
+	padding: 20px 40px;
+}
+
+.btn-xl:hover, .btn-xl:focus, .btn-xl:active, .btn-xl.active, .open .dropdown-toggle.btn-xl {
+	color: white !important;
+	background-color: #fec503;
+	border-color: #f6bf01;
+}
+
+.btn-xl:active, .btn-xl.active, .open .dropdown-toggle.btn-xl {
+	background-image: none;
+}
+
+.btn-xl.disabled, .btn-xl[disabled], fieldset[disabled] .btn-xl, .btn-xl.disabled:hover,
+	.btn-xl[disabled]:hover, fieldset[disabled] .btn-xl:hover, .btn-xl.disabled:focus,
+	.btn-xl[disabled]:focus, fieldset[disabled] .btn-xl:focus, .btn-xl.disabled:active,
+	.btn-xl[disabled]:active, fieldset[disabled] .btn-xl:active, .btn-xl.disabled.active,
+	.btn-xl[disabled].active, fieldset[disabled] .btn-xl.active {
+	background-color: #fed136;
+	border-color: #fed136;
+}
+
+.btn-xl .badge {
+	color: #fed136;
+	background-color: white;
+}
+
+.btn:focus, .btn:active, .btn.active, .btn:active:focus {
+	outline: none;
+}
+
+.btn-search{
+  background-color: #f2d636;
+  color: #fff;
+}
+.btn-search:hover, .btn-search:focus {
+  color: #fff !important;
+  background-color: #333 !important;
+}
+.btn-register{
+  color: #fff;
+}
+.btn-register:hover, .btn-register:focus {
+  color: black;
+  background-color: white;
+}

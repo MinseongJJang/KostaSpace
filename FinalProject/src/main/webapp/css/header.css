@@ -1,0 +1,78 @@
+@CHARSET "UTF-8";
+
+.navbar{
+	background-color: #004b8b;
+}
+#logo {
+	font-family: "Open Sans", sans-serif;
+	font-size: 40px;
+	color: white;
+}
+.btn-outlined {
+    border-radius: 0;
+    -webkit-transition: all 0.3s;
+       -moz-transition: all 0.3s;
+            transition: all 0.3s;
+}	
+.btn-outlined.btn-info {
+    background: none;
+    border: 3px solid #004b8b;
+    color: #004b8b;
+}
+.btn-outlined.btn-info:hover,
+.btn-outlined.btn-info:active {
+    color: #FFF;
+    background: #39b3d7;
+}
+
+.search-field {
+  margin-right:70px;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-sizing: border-box;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 2.25rem;
+  font-weight: 300;
+  opacity: 0;
+  padding-right: 3.75rem;
+  width: 0;
+  z-index: 3;
+}
+
+a.animated-button.thar-two {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    border: 2px solid white;
+    margin-right: 15px;
+    width : auto;
+    height: auto;
+}
+.search-form {
+  display: inline-block;
+  float: right;
+  width: 90px;/* 상단 검색바 넓이 조절 */
+}
+
+.btn-search{
+  color: #fff;
+}
+.btn-search:hover, .btn-search:focus {
+  color: #fff;
+  background-color: black;
+}
+.btn-all{
+  border-radius: 3px;
+  background-color: #f2d636;
+  color: #fff;
+}
+.btn-all:hover, .btn-all:focus {
+  border-radius: 3px;
+  color: white;
+  background-color: black;
+}

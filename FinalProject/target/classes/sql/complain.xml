@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="complainMapper">
+	<!-- 페이징처리참고 <select id="getBoardList" resultMap="boardListRM"> select no, 
+		title, count, w_date, name from (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) 
+		page from (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, 
+		name from springboard s, member m where s.id = m.id order by no desc)) where 
+		page=#{nowPage} </select> -->
+	<resultMap type="complain" id="complainRM">
+		<result property="id" column="id" />
+		<result property="c_no" column="c_no" />
+		<result property="p_no" column="p_no" />
+		<result property="content" column="content" />
+		<result property="title" column="title" />
+		<result property="cDate" column="c_date" />
+	</resultMap>
+	<sql id="all-column">id, c_no, p_no, content, title, c_date</sql>
+	<!-- 컴플레인 등록하기 -->
+	<insert id="complainProduct" parameterType="complain">
+		<selectKey keyProperty="c_no" resultType="int" order="BEFORE">
+			SELECT
+			complain_seq.nextVal FROM dual
+		</selectKey>
+		INSERT INTO complain(
+		<include refid="all-column"></include>
+		) values(
+		#{id}, #{c_no},#{p_no},#{content},#{title},sysdate)
+	</insert>
+	<delete id="deleteComplain" parameterType="int">
+		delete from complain where c_no=#{value}	
+	</delete>
+	<!-- 상세신고글 조회 -->
+	<select id="getComplain" parameterType="int" resultMap="complainRM">
+		SELECT
+		<include refid="all-column"></include>
+		FROM complain
+		WHERE c_no=#{value}
+	</select>
+
+	<!-- 전체 신고글 조회 -->
+	<select id="getAllComplain" parameterType="complain" resultMap="complainRM">
+		SELECT
+		<include refid="all-column" />
+		FROM
+		(SELECT
+		<include refid="all-column" />
+		, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+		(SELECT
+		<include refid="all-column" />
+		FROM complain order by c_no desc))
+		WHERE page=#{pb.nowPage}
+	</select>
+
+	<!-- 전체 신고글 갯수 -->
+	<select id="totalCount_getAllComplain" resultType="int">
+		SELECT
+		count(-1) FROM complain
+	</select>
+
+	<!-- 특정 회원 신고글 조회 -->
+	<select id="findComplainById" resultMap="complainRM"
+		parameterType="complain">
+		SELECT <include refid="all-column"></include> FROM
+		(SELECT <include refid="all-column"></include>, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+		(SELECT
+		<include refid="all-column"></include>
+		FROM complain
+		WHERE id=#{id} order by c_no desc))
+		WHERE page=#{pb.nowPage}
+	</select>
+
+	<!-- 특정 회원 신고글 갯수 -->
+	<select id="totalCount_findComplainById" parameterType="complain"
+		resultType="int">
+		SELECT count(-1) FROM complain WHERE id=#{id}
+	</select>
+	
+	<!-- 특정 상품에 대한 신고글 검색 -->
+	<select id="findComplainByPNo" parameterType="complain" resultMap="complainRM">
+		SELECT <include refid="all-column"></include> FROM
+		(SELECT <include refid="all-column"></include>, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+		(SELECT
+		<include refid="all-column"></include>
+		FROM complain
+		WHERE p_no=#{p_no} order by c_no desc))
+		WHERE page=#{pb.nowPage}
+	</select>
+	<!-- 특정상품에 대한 신고글 총수  -->
+	<select id="totalCount_findComplainByPNo" parameterType="complain" resultType="int">
+	SELECT count(-1) FROM complain
+	WHERE p_no=#{p_no}
+	</select>
+
+
+</mapper>

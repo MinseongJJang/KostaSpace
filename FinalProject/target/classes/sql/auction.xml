@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="auctionMapper">
+   	 
+   <resultMap type="auction" id="auctionRM">
+   	<result property="a_no" column="a_no"/>
+   	<result property="price" column="price"/>
+   	<result property="content" column="content"/>
+   	<result property="area" column="area"/>
+   	<result property="location" column="location"/>
+   	<result property="tel" column="tel"/>
+   	<result property="crn" column="crn"/>
+   	<result property="a_date" column="a_date"/>
+   	<result property="confirm" column="confirm"/>
+   	<result property="title" column="title"/>
+   	<result property="originfilename" column="originfilename"/>
+   	<result property="newfilename" column="newfilename"/>
+   	<result property="id" column="id"/>
+   	<result property="name" column="name"/>
+   	<result property="enddate" column="enddate"/>
+   	<result property="accomodation" column="accomodation"/>
+   	<result property="aoriginfilename" column="aoriginfilename"/>
+   	<result property="anewfilename" column="anewfilename"/>
+   	<result property="amenities" column="amenities"/>
+   </resultMap>
+   
+    <resultMap type="auctiontemp" id="auctiontempRM">
+   	<result property="a_no" column="a_no"/>
+   	<result property="price" column="price"/>
+   	<result property="content" column="content"/>
+   	<result property="area" column="area"/>
+   	<result property="location" column="location"/>
+   	<result property="tel" column="tel"/>
+   	<result property="crn" column="crn"/>
+   	<result property="a_date" column="a_date"/>
+   	<result property="confirm" column="confirm"/>
+   	<result property="title" column="title"/>
+   	<result property="originfilename" column="originfilename"/>
+   	<result property="newfilename" column="newfilename"/>
+   	<result property="id" column="id"/>
+   	<result property="name" column="name"/>   	
+   	<result property="enddate" column="enddate"/>
+   	<result property="accomodation" column="accomodation"/>
+   	<result property="aoriginfilename" column="aoriginfilename"/>
+   	<result property="anewfilename" column="anewfilename"/>
+   	<result property="amenities" column="amenities"/>
+   	
+   </resultMap>
+   
+   
+   	<insert id="applyAuction" parameterType="auctiontemp">
+   		<selectKey keyProperty="a_no" resultType="int" order="BEFORE">
+   			select auction_seq.nextVal from dual
+   		</selectKey>
+   		
+   		insert into auction(a_no, price, content, area, location, tel, crn, a_date, confirm, title, 
+   				originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+   				anewfilename, amenities)
+   		values(#{a_no}, #{price}, #{content}, #{area}, #{location}, #{tel}, #{crn}, sysdate, #{confirm}, 
+   				#{title}, #{originfilename}, #{newfilename}, #{id}, #{name}, #{enddate}, #{accomodation}, 
+   				#{aoriginfilename}, #{anewfilename}, #{amenities})
+   	</insert>
+   	
+   	<select id="selectByNoForDate" parameterType="int" resultType="string">
+		SELECT
+		a_date
+		FROM auction
+		WHERE a_no=#{value}
+	</select> 
+   	
+   
+   <delete id="deleteAuction" parameterType="string">
+   		delete from auction where a_no=#{value} 
+   </delete>
+   
+   <update id="updateAuction" parameterType="auction">
+   		update auction
+   		set price=#{price}, content=#{content}, area=#{area}, location=#{location}, tel=#{tel}, crn=#{crn}, 
+   			title=#{title}, originfilename=#{originfilename}, newfilename=#{newfilename}, 
+   			accomodation=#{accomodation}, aoriginfilename=#{aoriginfilename}, anewfilename=#{anewfilename}, 
+   			amenities = #{amenities} 
+   		where a_no=#{a_no}
+   </update>
+   
+   <update id="acceptAuction" parameterType="auction">
+   		update auction
+   		set confirm=#{confirm}
+   		where a_no=#{a_no}
+   </update>
+  
+   
+		<!-- SELECT no, title, count, w_date, name FROM
+		(SELECT no, title, count, w_date, name, CEIL(rownum/5) page FROM
+		(SELECT no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, name
+		FROM springboard_upload s, member m
+		WHERE s.id = m.id
+		ORDER BY no DESC))
+		WHERE page=#{value} -->
+		
+	<!-- 	<select id="getBoardList" resultMap="boardListRM">
+      select no, title, count, w_date, name 
+      from (select no, title, count, w_date, name, CEIL(rownum/#{numberOfContentPerPage}) page 
+      from (select no, title, count, to_char(w_date, 'YYYY.MM.DD') w_date, name 
+      from springboard s, member m
+      where s.id = m.id order by no desc))
+      where page=#{nowPage}
+      </select> -->
+		<!-- 자신이 옥션에 등록한 글을 전부 가져오기 -->
+   <select id="getAllAuction" resultMap="auctionRM" parameterType="auction">
+		select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+				newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities 
+		from(select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+					newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities,  
+      				CEIL(rownum/#{pb.numberOfContentPerPage}) page
+			from(select a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, 
+						confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+						anewfilename, amenities
+				from auction where id = #{id} order by a_no desc))
+      where page=#{pb.nowPage}
+   </select>
+   
+   <select id="getAllAuctionNoPaging" resultMap="auctionRM" parameterType="auction">
+   		SELECT a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+				newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities 
+		FROM(SELECT a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+					newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities,  
+      				CEIL(rownum/#{pb.numberOfContentPerPage}) page
+			FROM(SELECT a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, 
+						confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+						anewfilename, amenities 
+				FROM auction WHERE a_no IN (SELECT a_no FROM a_deal WHERE id = #{id}) ORDER BY a_no desc))
+      WHERE page=#{pb.nowPage}
+   </select>
+   
+   <select id="getAuction" parameterType="string" resultMap="auctionRM">
+   		select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+   				newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities 
+   		from auction
+   		where a_no=#{value}
+   </select>
+   
+   <select id="getOnSaleAuction" resultMap="auctionRM">
+         select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+         		newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities 
+         from auction
+   </select>
+   
+   <update id="updateBidCount" parameterType="bid">
+   		update bid
+   		set price=#{price}, count=count-1
+   		where id=#{id}
+   </update>
+   
+   <select id="getBidCount" parameterType="bid" resultType="string">
+   		select count
+   		from bid
+   		where id=#{id}
+   </select>
+   <select id="totalCount" resultType="int" parameterType="string">
+   SELECT count(-1) FROM auction where id=#{value}
+	</select>
+	<select id="totalCountMyBidAuction" resultType="int" parameterType="string">
+		SELECT count(-1) 
+		FROM(SELECT a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, 
+				confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+				anewfilename, amenities 
+			FROM auction WHERE a_no IN (SELECT a_no FROM a_deal WHERE id = #{id}) ORDER BY a_no desc)
+	</select>
+
+
+<!-- 임시 Auction 쿼리문 : 사용자들이 경매신청을 하게되면 승인되기 전까지 임시공간에 저장  관리자만 볼 수 있다. -->
+<!-- 경매 신청 -->
+<insert id="applyAuctionTemp" parameterType="auctiontemp">
+   		<selectKey keyProperty="a_no" resultType="int" order="BEFORE">
+   			select auctiontemp_seq.nextVal from dual
+   		</selectKey>
+   		insert into auctiontemp(a_no, price, content, area, location, tel, crn, a_date, confirm, title, 
+   								originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+   								anewfilename, amenities)
+   		values(#{a_no}, #{price}, #{content}, #{area}, #{location}, #{tel}, #{crn}, sysdate, NVL(#{confirm},'true'), 
+   				#{title}, #{originfilename}, #{newfilename}, #{id}, #{name}, #{enddate}, #{accomodation}, 
+   				#{aoriginfilename}, #{anewfilename}, #{amenities})
+   
+</insert>
+
+<!-- 경매 신청글의 날짜 받아오기 -->
+<select id="selectByNoForDateTemp" parameterType="int" resultType="string">
+		SELECT
+		a_date
+		FROM auction
+		WHERE a_no=#{value}
+</select> 
+<!-- 경매 심사중 경매신청자가 경매내용을 수정할때 -->
+<update id="updateAuctionTemp" parameterType="auctiontemp">
+   		update auctiontemp
+   		set price=#{price}, content=#{content}, area=#{area}, location=#{location}, tel=#{tel}, crn=#{crn}, 
+   			title=#{title}, originfilename=#{originfilename}, newfilename=#{newfilename}, enddate=#{enddate}, 
+   			accomodation=#{accomodation}, aoriginfilename=#{aoriginfilename}, anewfilename=#{anewfilename}, 
+   			amenities=#{amenities} 
+   		where a_no=#{a_no}
+</update>
+
+<!-- 경매신청글 전체 가져오기 -->
+<select id="getAllAuctionTemp" resultMap="auctiontempRM" parameterType="pagingbean">
+		select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities from
+		(select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities, CEIL(rownum/#{numberOfContentPerPage}) page from
+		(select a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities from 
+		auctiontemp order by a_no desc))
+		where page=#{nowPage}
+</select>
+
+
+<!-- 
+	<select id="getAllAuction" resultMap="auctionRM" parameterType="auction">
+		select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+				newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities 
+		from(select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+					newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities,  
+      				CEIL(rownum/#{pb.numberOfContentPerPage}) page
+			from(select a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, 
+						confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+						anewfilename, amenities
+				from auction where id = #{id} order by a_no desc))
+      where page=#{pb.nowPage}
+-->
+<!-- 
+<select id="getMyApplyAuctionTempList" resultMap="auctiontempRM" parameterType="string">
+		select a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, 
+				confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+				anewfilename, amenities
+		from auctiontemp 
+		where id=#{value} order by a_no desc
+</select>
+-->
+<select id="getMyApplyAuctionTempList" resultMap="auctiontempRM" parameterType="auctiontemp">
+	select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+			newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities 
+	from(select a_no, price, content, area, location, tel, crn, a_date, confirm, title, originfilename, 
+				newfilename, id, name, enddate, accomodation, aoriginfilename, anewfilename, amenities,  
+				CEIL(rownum/#{pb.numberOfContentPerPage}) page
+		from(select a_no, price, content, area, location, tel, crn, to_char(a_date, 'YYYY.MM.DD') a_date, 
+					confirm, title, originfilename, newfilename, id, name, enddate, accomodation, aoriginfilename, 
+					anewfilename, amenities
+			from auctiontemp where id = #{id} order by a_no desc))
+	where page=#{pb.nowPage}
+</select>
+
+
+
+<delete id="deleteAuctionTemp" parameterType="string">
+   		delete from auctiontemp where a_no=#{value} 
+</delete>
+
+<delete id="deleteAllAuctionTemp">
+   		delete from auctiontemp
+</delete>
+
+<!-- 경매신청글 중에 한개 상세 보기 -->
+<select id="getAuctiontemp" parameterType="string" resultMap="auctiontempRM">
+   		select a.a_no, a.price, a.content, a.area, a.location, a.tel, a.crn, a.a_date, a.confirm, 
+   				a.title, a.originfilename, a.newfilename, a.id, a.name, a.enddate, a.accomodation, 
+   				a.aoriginfilename, a.anewfilename, a.amenities 
+   		from auctiontemp a, spaceuser s
+   		where a.id = s.id
+   		and a.a_no=#{value}
+</select>
+
+<select id="totalCountTemp" resultType="int">
+   SELECT count(-1) FROM auctiontemp
+</select>
+<select id="totalCountMyApplyAuctionTemp" resultType="int" parameterType="string">
+   SELECT count(-1) FROM auctiontemp where id=#{value}
+</select>
+
+
+</mapper>

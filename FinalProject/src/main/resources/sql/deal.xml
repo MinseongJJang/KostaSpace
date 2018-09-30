@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dealMapper">
+		<!-- 유저 result map -->
+	<resultMap type="user" id="userRM">
+		<result property="id" column="id" />
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="address" column="address" />
+		<result property="point" column="point" />
+		<result property="auctionVO" column="auction" />
+		<result property="pList" column="product" />
+		<result property="crn" column="crn" />
+		<result property="grade" column="grade" />
+		<result property="tel" column="tel" />
+		
+	</resultMap>
+	
+	<!-- deal RM -->
+	<resultMap type="deal" id="dealRM">
+		<result property="d_no" column="d_no" />
+		<result property="p_no" column="p_no" />
+		<result property="sId" column="s_Id" />
+		<result property="bId" column="b_Id" />
+		<result property="price" column="price" />
+		<result property="resDate" column="res_date" />
+		<result property="resTime" column="res_time" />
+		<result property="sTel" column="s_tel" />
+		<result property="bTel" column="b_tel" />
+		<result property="title" column="title" />
+		<result property="area" column="area" />
+		<result property="sState" column="s_state" />
+		<result property="accept" column="accept" />
+		<result property="bState" column="b_state" />
+		<result property="dDate" column="d_date"/>
+	</resultMap>
+
+	<!-- deal all-column -->
+	<sql id="all-column">
+		d_no,p_no,s_id,b_id,price,res_date,res_time,stel,btel,title,area,accept,s_state,b_state,d_date
+	</sql>
+
+	<!-- 거래등록(시작) grade는 필요가 없고, 양쪽 승인을 구분할 것이 필요할듯 수정 필요한듯? -->
+	<insert id="registerDeal" parameterType="deal">
+		<selectKey keyProperty="d_no" resultType="int" order="BEFORE">
+			SELECT deal_seq.nextVal from dual
+		</selectKey>
+		INSERT INTO deal(
+		<include refid="all-column"></include>
+		) values
+		(#{d_no},#{p_no},#{sId},#{bId},#{price},#{resDate},#{resTime},#{sTel},#{bTel},
+		#{title},#{area},NVL(#{accept},'승인대기'),NVL(#{sState},0),NVL(#{bState},0),sysdate)
+	</insert>
+	
+	<update id="updateDealSstate" parameterType="deal">
+	UPDATE deal 
+	SET s_state=s_state+1 
+	WHERE s_id=#{sId} and d_no=#{d_no}
+	</update>
+	
+	<update id="updateDealBstate" parameterType="deal">
+	UPDATE deal 
+	SET b_state=b_state+1 
+	WHERE b_id=#{bId} and d_no=#{d_no}
+	</update>
+	
+	<update id="updateDealSuccess" parameterType="string">
+	UPDATE deal
+	SET accept='거래완료'
+	WHERE s_state=1 AND b_state=1 AND (s_id=#{value} or b_id=#{value})
+	</update>
+	
+	<!-- 물품거래간 point 유동 -->
+	<update id="plusPointByDeal" parameterType="deal">
+		UPDATE spaceuser SET point = point+
+		(SELECT price FROM deal WHERE s_state=1 and b_state=1 and d_no=#{d_no})
+		WHERE id = 
+		(SELECT s_id FROM deal WHERE s_id = #{sId}
+		AND d_no = #{d_no})
+		<!-- 뷰단에서 판매자와/구매자를 나눈다. 페이지이동할때 판매자와 구매자를 구분짓는 히든값을 넘긴다. -->
+	</update>
+	
+	<!-- 물품거래간 point 유동 -->
+	<update id="minusPointByDeal" parameterType="user">
+			UPDATE spaceuser SET point = point-
+		(SELECT price FROM deal WHERE s_state=1 and b_state=1 and d_no=#{d_no})
+		WHERE id = 
+		(SELECT b_id FROM deal  WHERE b_id = #{bId}
+		AND d_no = #{d_no})
+		<!-- 뷰단에서 판매자와/구매자를 나눈다. 페이지이동할때 판매자와 구매자를 구분짓는 히든값을 넘긴다. -->
+	</update> 
+	
+	<resultMap type="adeal" id="adealRM">
+		<result property="a_deal_no" column="a_deal_no"/>
+		<result property="a_no" column="a_no"/>
+		<result property="id" column="id"/>
+		<result property="fPrice" column="f_price"/>
+	</resultMap>
+	
+	
+	
+	<!--최종낙찰정보  -->
+	<!-- <insert id="getFinalBid" parameterType="int">
+	<selectKey keyProperty="a_deal_no" order="BEFORE" resultType="int">
+	SELECT a_deal_no_seq.nextVal from dual
+	</selectKey>
+	INSERT into a_deal(a_deal_no,a_no,id,f_price) values
+	(#{a_deal_no},#{value},(SELECT id FROM bid  where rownum=1 order by price DESC),(SELECT price FROM bid  where rownum=1 order by price DESC ))
+	</insert> -->
+	<insert id="insertFinalBid" parameterType="int">
+		<selectKey keyProperty="a_deal_no" resultType="int" order="BEFORE">
+			SELECT a_deal_seq.nextVal FROM dual
+		</selectKey>
+		INSERT into a_deal 
+		VALUES(#{a_deal_no}, #{value}, (SELECT id FROM(SELECT id FROM bid ORDER BY price DESC) WHERE ROWNUM=1), (SELECT price FROM(SELECT price FROM bid ORDER BY price DESC) WHERE ROWNUM=1))
+	</insert>
+	<select id="getFinalBid" parameterType="int" resultMap="adealRM">
+		SELECT a_deal_no, a_no, id, f_price FROM a_deal WHERE a_no = #{value}
+	</select>
+	<!-- 지난 bid삭제 -->
+	<delete id="deletePastBid">
+	DELETE FROM BID
+	</delete>
+	<delete id="deleteDeal" parameterType="int">
+	DELETE FROM deal where d_no=#{value}
+	</delete>
+	<!-- 경매간 point유동  -->
+	<!-- <update id="plusPointByAuction" parameterType="auction">
+		UPDATE spaceuser set point = point+
+		(SELECT f_price FROM a_deal a, auction ac
+ 		WHERE a.a_no=ac.a_no)WHERE id=(SELECT id from auction WHERE id=#{id})
+	</update>
+	<update id="minusPointByAuction">
+				UPDATE spaceuser set point = point-
+		(SELECT f_price FROM a_deal a, auction ac
+ 		WHERE a.a_no=ac.a_no)WHERE id=(SELECT id from bid 
+	where price=
+	(SELECT max(price)FROM bid)) 
+	</update> -->
+	
+	<!-- 옥션에서 완료된 거래  :  a_deal에 있는 모든 데이터 가져오기   이곳의 id는 구매자 id	판매자 id는 옥션에 담겨있다-->
+	<select id="getAdealList" resultMap="adealRM">
+		select a_deal_no, a_no, id, f_price from a_deal
+	</select>
+	
+	
+	<!-- 특정회원의 거래내역 불러오기 (판매자/구매자)중 자기 아이디가 포함되어있으면 모든 거래내역이 나온다. -->
+	<!-- 페이징처리참고 <select id="getBoardList" resultMap="boardListRM"> 
+	  SELECT  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+      FROM
+      (select  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice, CEIL(rownum/#{pb.numberOfContentPerPage}) page from
+      (SELECT  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice
+      FROM (SELECT  b_no, id, title, category, b_date, content, newfilename,
+      originfilename, notice FROM Board
+      WHERE notice=#{notice}
+      ORDER BY b_no DESC)))
+      WHERE page=#{pb.nowPage}    -->
+  
+	<select id="getAllDealInfo" resultMap="dealRM" parameterType="deal">
+		select d_no,p_no,s_id,b_id,price,res_date,res_time,stel,btel,title,area,accept,s_state,b_state,d_date from 
+		(select d_no,p_no,s_id,b_id,price,res_date,res_time,stel,btel,title,area,accept,s_state,b_state,d_date,ceil(rownum/#{pb.numberOfContentPerPage}) as
+		page from 
+		(select d_no,p_no,s_id,b_id,price,res_date,res_time,stel,btel,title,area,accept,s_state,b_state,d_date from 
+		(select d_no,p_no,s_id,b_id,price,res_date,res_time,stel,btel,title,area,accept,s_state,b_state,d_date from deal 
+		where b_id=#{bId} or s_id=#{sId}
+		order by d_no desc)))
+		where page=#{pb.nowPage}
+		
+	</select>
+
+	<!-- 특정 회원의 거래 상태 불러오기 -->
+	<select id="getDealState" resultType="string" parameterType="string">
+		SELECT accept FROM deal
+		WHERE s_id=#{value} or b_id=#{value}
+	</select>
+	
+	<!-- 특정 거래 ㄴ상세보기 -->
+	<select id="getDealInfo" resultMap="dealRM" parameterType="int">
+		SELECT <include refid="all-column"/> FROM deal
+		WHERE d_no=#{value}
+	</select>
+	
+	<select id="getDealInfoByResDate" parameterType="deal" resultMap="dealRM">
+		SELECT
+		<include refid="all-column"></include>
+		FROM deal
+		where p_no=#{p_no} and res_date=#{resDate}
+	</select>
+	
+	 <select id="totalCount_getAllDealInfo" parameterType="deal" resultType="int">
+   SELECT count(-1) from (
+      SELECT
+      <include refid="all-column" />
+      FROM (SELECT
+      <include refid="all-column" />
+      FROM deal   
+      )
+      WHERE b_id=#{bId} AND s_id=#{sId}
+      ORDER BY d_no DESC
+      )
+   </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

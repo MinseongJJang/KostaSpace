@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="goodMapper">
+   <resultMap type="good" id="goodRM">
+   <result property="id" column="id"/>
+   <result property="p_no" column="p_no"/>
+   <result property="r_no" column="r_no"/>
+   <result property="goodState" column="good_state"/>
+   </resultMap>
+   <insert id="registerGood" parameterType="good">
+   		insert into good(id,p_no,r_no,good_state)
+   		values(#{id},#{p_no},#{r_no},NVL(#{goodState},0))
+   </insert>
+   <update id="updateGood" parameterType="good">
+   		update good
+   		set good_state = good_state+1 
+   		where id = #{id} and r_no = #{r_no} and p_no=#{p_no}
+   </update>
+   <update id="updateNoGood" parameterType="good">
+   		update good
+   		set good_state = good_state-1
+   		where id = #{id} and r_no = #{r_no} and p_no=#{p_no}
+   </update>
+   <select id="checkGoodState" parameterType="good" resultType="string">
+   		select good_state from good
+   		where id=#{id} and r_no=#{r_no} and p_no=#{p_no}
+   </select>
+   <select id="getGood" parameterType="good" resultMap="goodRM" >
+   		select id,good_state,r_no,p_no from good where id=#{id} and r_no=#{r_no} and p_no=#{p_no}
+   </select>
+   
+   <select id="getAllGood" parameterType="good" resultMap="goodRM">
+   		select id,good_state,r_no,p_no from good where p_no=#{p_no} and id = #{id}
+   </select>
+   
+   
+   </mapper>
